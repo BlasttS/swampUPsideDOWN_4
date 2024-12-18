@@ -22,6 +22,7 @@ jobs:
         PW: ${{ secrets.USER_CRED }}
       run: |
         echo "Login health check"
+        echo "$USER:$PW"
         curl --connect-timeout 2 -sSf -k -u "$USER:$PW" $URL/login
         
     - name: send_run_log
@@ -52,6 +53,7 @@ jobs:
       run: |
         PR="${{ github.event.pull_request.body }}"
         #Fixing pipeline
+        echo 
         echo $PR | grep -oP '\(backport #\K\d+' | tail -n 1
         author=$(gh pr view ${ORI_PR} -R ${REPO} --json author -q '.author.login')
         if [[ ! "${author}" =~ "mergify" ]]; then
